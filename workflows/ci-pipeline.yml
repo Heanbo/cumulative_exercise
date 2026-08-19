@@ -1,0 +1,65 @@
+# Set the pipeline name.
+name: Continuous Integration
+
+# Set pipeline execution criteria.
+on:
+  push
+
+# Define all jobs within the pipeline.
+jobs:
+
+  # Define the test job.
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+
+      # Install Python.
+      - name: python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      # Install Python dependencies.
+      - name: pip
+        run: python -m pip install black
+
+      # Download the source code.
+      - name: clone
+        uses: actions/checkout@v4
+
+      # Conduct a QA test.
+      - name: black
+        run: black --diff --color --check .
+
+  # Define the pre-build-scan job.
+  pre-build-scan:
+    name: pre-build-scan
+    needs: test
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      # Download the source code.
+      - name: clone
+        uses: actions/checkout@v4
+      
+      # Conduct a SAST scan.
+      - name: semgrep
+        run: semgrep scan --config auto
+
+  # Define the build job.
+  build:
+    name: build
+    needs: pre-build-scan
+    runs-on: ubuntu-latest
+    steps:
+
+      # Download the source code.
+      - name: clone
+        uses: actions/checkout@v4
+
+      # Build the container image.
+      - name: docker
+        run: docker build .
