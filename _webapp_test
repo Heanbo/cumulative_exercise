@@ -1,5 +1,0 @@
-def test_find_pizza_area_by_diameter():
-    """Tests calculation of pizza area by diameter."""
-    radius = 10 / 2  # Calculate radius from diameter
-    expected_area = math.pi * radius**2
-    assert find_pizza_area(radius) == expected_area

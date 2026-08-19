@@ -1,0 +1,16 @@
+"""These are unit tests for the main.py"""
+
+import main
+
+
+def test_root():
+    """testing return of lat/lon from state and city"""
+    assert main.root() == {"message": "Hello, World!"}
+
+
+def test_convert():
+    """testing return of lat/lon from state and city"""
+    assert main.convert_state("MN", "Minneapolis") == {
+        "lat": "44.9778",
+        "lon": "-93.265",
+    }

@@ -1,0 +1,8 @@
+uvicorn
+fastapi
+requests
+black
+pylint
+mypy
+pytest
+pytest-cov
