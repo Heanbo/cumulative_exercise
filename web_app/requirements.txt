@@ -1,0 +1,10 @@
+fastapi
+pytest
+pylint
+black
+uvicorn
+mypy
+pre-commit
+requests
+pytest-cov
+pydantic
